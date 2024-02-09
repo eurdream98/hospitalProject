@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hospital.management.doctor.model.dao.DoctorMapper">
+    <sql id="doctorColumns">
+        doctor_code,
+        doctor_name,
+        doctor_gender,
+        doctor_phone,
+        doctor_email,
+        rank_code,
+        department_code
+    </sql>
+    <resultMap id="doctorResultMap" type="DoctorDTO">
+        <id property="doctorCode" column="doctor_code"/>
+        <result property="doctorName" column="doctor_name"/>
+        <result property="doctorGender" column="doctor_gender"/>
+        <result property="doctorPhone" column="doctor_phone"/>
+        <result property="doctorEmail" column="doctor_email"/>
+        <result property="rankCode" column="rank_code"/>
+        <result property="departmentCode" column="department_code"/>
+    </resultMap>
+    <select id="selectAllDoctor" resultMap="doctorResultMap">
+        SELECT
+        <include refid="doctorColumns"/>
+        FROM
+        tbl_doctor;
+    </select>
+
+    <select id="selectDoctorDoctorCode" resultMap="doctorResultMap" parameterType="_int">
+        SELECT
+        <include refid="doctorColumns"/>
+        FROM
+        tbl_doctor
+        WHERE
+        doctor_code = #{doctorCode}
+    </select>
+
+    <insert id="insertDoctor" parameterType="DoctorDTO">
+        INSERT INTO
+        tbl_doctor(doctor_name,doctor_gender,doctor_phone,doctor_email,rank_code,department_code)
+        VALUES(#{doctorName},#{doctorGender},#{doctorPhone},#{doctorEmail},#{rankCode},#{departmentCode})
+    </insert>
+
+    <update id="updateDoctor" parameterType="DoctorDTO">
+            UPDATE
+            tbl_doctor
+            <set>
+                <if test='doctorName!="0"'>
+                    doctor_name=#{doctorName},
+                </if>
+                <if test='doctorGender=="남" or doctorGender=="여"'>
+                    doctor_gender=#{doctorGender},
+                </if>
+                <if test='doctorPhone!="0"'>
+                    doctor_phone=#{doctorPhone},
+                </if>
+                <if test='doctorEmail!="0"'>
+                    doctor_email=#{doctorEmail},
+                </if>
+                <if test="rankCode gt 0">
+                    rank_code=#{rank_code},
+                </if>
+                <if test='departmentCode gt 0'>
+                    department_code=#{departmentCode}
+                </if>
+            </set>
+            WHERE doctor_code=#{doctorCode}
+        </update>
+
+        <delete id="deleteDoctor" parameterType="_int">
+            DELETE
+            FROM
+                tbl_doctor
+            WHERE
+                doctor_code = #{doctorCode}
+        </delete>
+
+    <select id="randomDoctor" resultMap="doctorResultMap">
+        SELECT
+        <include refid="doctorColumns"/>
+        FROM
+            tbl_doctor
+        WHERE
+            doctor_code IN
+        <foreach collection="randomSet" item="doctor" open="(" separator="," close=")">
+            #{doctor}
+        </foreach>
+    </select>
+</mapper>
