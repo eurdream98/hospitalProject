@@ -65,6 +65,7 @@ public class PatientPrint {
                 case 11:
                     patientController.selectPatientDepartment();
                     break;
+
                 default:
                     System.out.println("번호를 잘못 입력하셨습니다.");
             }
