@@ -77,7 +77,6 @@ public class PatientPrint {
 
     private SelectCriteria subSelectByCriteria() {
         SelectCriteria selectCriteria = new SelectCriteria();
-
         System.out.println("===== 검색 메뉴 =====");
         System.out.println("1. 환자 이름에 따른 검색(완전 일치)");
         System.out.println("2. 환자 증상에 따른 검색(일부 일치)");
