@@ -73,6 +73,7 @@ public class PatientPrint {
 
         }while(true);
 
+
     }
 
     private SelectCriteria subSelectByCriteria() {
